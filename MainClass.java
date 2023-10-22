@@ -71,7 +71,7 @@ class MainClass {
         return (int) speakingTimeInSec;
     }
 
-    public static int characterCoutnter() {
+    public static int characterCounter() {
         String filePathInString = filePath.toString();
         File myFile = new File(filePathInString);
         int count = 0;
@@ -109,55 +109,69 @@ class MainClass {
 
     public static void main(String[] args) {
         // StringBuilder filePath = new StringBuilder();
-        JFrame f = new JFrame("Simple Word Counter");
-        f.setVisible(true);
-        f.setSize(400, 400);
-        f.setLayout(new FlowLayout());
-        JLabel l1 = new JLabel("File Path : ");
-        f.add(l1);
-        JTextField t1 = new JTextField(20);
-        f.add(t1);
-        JButton b1 = new JButton("Choose File");
-        f.add(b1);
-        b1.addActionListener(new ActionListener() {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                // StringBuilder filePath = new StringBuilder();
-                // Create a JFileChooser object
-                JFileChooser chooser = new JFileChooser();
+            public void run() {
+                JFrame f = new JFrame("Simple Word Counter");
+                f.setVisible(true);
+                f.setSize(800, 400);
+                f.setLayout(new FlowLayout());
+                JLabel l1 = new JLabel("File Path : ");
+                f.add(l1);
+                JTextField t1 = new JTextField(20);
+                f.add(t1);
+                JButton b1 = new JButton("Choose File");
+                f.add(b1);
+                b1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // StringBuilder filePath = new StringBuilder();
+                        // Create a JFileChooser object
+                        JFileChooser chooser = new JFileChooser();
 
-                // Show the browse files dialog
-                int result = chooser.showOpenDialog(f);
+                        // Show the browse files dialog
+                        int result = chooser.showOpenDialog(f);
 
-                // If the user selects a file, get the file path and set it in the text field
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    t1.setText(chooser.getSelectedFile().getAbsolutePath());
-                    filePath = filePath.append(chooser.getSelectedFile().getAbsolutePath());
-                }
-            }
-        });
-        JButton b2 = new JButton("Analyse File");
-        f.add(b2);
+                        // If the user selects a file, get the file path and set it in the text field
+                        if (result == JFileChooser.APPROVE_OPTION) {
+                            t1.setText(chooser.getSelectedFile().getAbsolutePath());
+                            filePath = filePath.append(chooser.getSelectedFile().getAbsolutePath());
+                        }
+                    }
+                });
+                JButton b2 = new JButton("Analyse File");
+                f.add(b2);
 
-        b2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Call the analyseText() function
-                int characterInTheFile = characterCoutnter();
-                int wordsInTheFile = wordCounter();
-                int readingTime = readingTime(wordsInTheFile);
-                int speakingTime = speakingTime(wordsInTheFile);
-                char mostFrequentChar = mostRepeatingCharacter();
-                JLabel l2 = new JLabel("Character : " + characterInTheFile);
-                f.add(l2);
-                JLabel l3 = new JLabel("Words : " + wordsInTheFile);
-                f.add(l3);
-                JLabel l4 = new JLabel("Reading Time : " + readingTime + "sec");
-                f.add(l4);
-                JLabel l5 = new JLabel("Speaking Time : " + speakingTime + "sec");
-                f.add(l5);
-                JLabel l6 = new JLabel("Most Reapeating Character : " + mostFrequentChar);
-                f.add(l6);
+                b2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Create a JPanel to hold the response components
+                        JPanel responsePanel = new JPanel(new FlowLayout());
+
+                        // Call the analyzeText() function
+                        int characterInTheFile = characterCounter();
+                        int wordsInTheFile = wordCounter();
+                        int readingTime = readingTime(wordsInTheFile);
+                        int speakingTime = speakingTime(wordsInTheFile);
+                        char mostFrequentChar = mostRepeatingCharacter();
+
+                        // Add response components to the response panel
+                        responsePanel.add(new JLabel("Character : " + characterInTheFile));
+                        responsePanel.add(new JLabel("Words : " + wordsInTheFile));
+                        responsePanel.add(new JLabel("Reading Time : " + readingTime + " sec"));
+                        responsePanel.add(new JLabel("Speaking Time : " + speakingTime + " sec"));
+                        responsePanel.add(new JLabel("Most Repeating Character : " + mostFrequentChar));
+
+                        // Add the response panel to the frame
+                        f.add(responsePanel);
+
+                        // Repaint the frame
+                        f.revalidate();
+                        f.repaint();
+                    }
+                });
+
+                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });
     }

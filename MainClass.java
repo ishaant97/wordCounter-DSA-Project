@@ -36,7 +36,7 @@ class MainClass {
                 map.put(ch, 1);
             }
         }
-        char mostFrequentChar = '\0'; // Initialize to null character
+        char mostFrequentChar = '\0';
         int maxFrequency = 0;
 
         for (Character character : map.keySet()) {
@@ -126,13 +126,8 @@ class MainClass {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         // StringBuilder filePath = new StringBuilder();
-                        // Create a JFileChooser object
                         JFileChooser chooser = new JFileChooser();
-
-                        // Show the browse files dialog
                         int result = chooser.showOpenDialog(f);
-
-                        // If the user selects a file, get the file path and set it in the text field
                         if (result == JFileChooser.APPROVE_OPTION) {
                             t1.setText(chooser.getSelectedFile().getAbsolutePath());
                             filePath = filePath.append(chooser.getSelectedFile().getAbsolutePath());
@@ -145,32 +140,22 @@ class MainClass {
                 b2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // Create a JPanel to hold the response components
                         JPanel responsePanel = new JPanel(new FlowLayout());
-
-                        // Call the analyzeText() function
                         int characterInTheFile = characterCounter();
                         int wordsInTheFile = wordCounter();
                         int readingTime = readingTime(wordsInTheFile);
                         int speakingTime = speakingTime(wordsInTheFile);
                         char mostFrequentChar = mostRepeatingCharacter();
-
-                        // Add response components to the response panel
                         responsePanel.add(new JLabel("Character : " + characterInTheFile));
                         responsePanel.add(new JLabel("Words : " + wordsInTheFile));
                         responsePanel.add(new JLabel("Reading Time : " + readingTime + " sec"));
                         responsePanel.add(new JLabel("Speaking Time : " + speakingTime + " sec"));
                         responsePanel.add(new JLabel("Most Repeating Character : " + mostFrequentChar));
-
-                        // Add the response panel to the frame
                         f.add(responsePanel);
-
-                        // Repaint the frame
                         f.revalidate();
                         f.repaint();
                     }
                 });
-
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });
